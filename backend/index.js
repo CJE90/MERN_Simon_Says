@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
+const HighScore = require('./models/highScore')
 app.use(express.json())
 
 
@@ -21,6 +23,7 @@ let highScores = [
         score: "10",
     }
 ]
+
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
     console.log('Path:  ', request.path)
@@ -40,7 +43,9 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/highscores', (request, response) => {
-    response.json(highScores)
+    HighScore.find({}).then(scores => {
+        response.json(scores)
+    })
 })
 
 app.get('/api/highscores/:id', (request, response) => {
@@ -89,7 +94,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
