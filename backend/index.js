@@ -49,14 +49,9 @@ app.get('/api/highscores', (request, response) => {
 })
 
 app.get('/api/highscores/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const highScore = highScores.find(score => score.id === id)
-    if (highScore) {
-        response.json(highScore)
-    }
-    else {
-        response.status(404).end()
-    }
+    HighScore.findById(request.params.id).then(score => {
+        response.json(score)
+    })
 })
 
 app.delete('/api/highscores/:id', (request, response) => {
