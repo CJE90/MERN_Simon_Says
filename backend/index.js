@@ -4,26 +4,6 @@ const app = express()
 const HighScore = require('./models/highScore')
 app.use(express.json())
 
-
-//dummy data
-let highScores = [
-    {
-        id: 1,
-        username: "Aguy",
-        score: "20",
-    },
-    {
-        id: 2,
-        username: "AGal",
-        score: "40",
-    },
-    {
-        id: 3,
-        username: "the computer",
-        score: "10",
-    }
-]
-
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
     console.log('Path:  ', request.path)
@@ -33,7 +13,6 @@ const requestLogger = (request, response, next) => {
 }
 
 app.use(requestLogger)
-
 
 //Note: The first request parameter contains all of the information of the HTTP request
 // the second response parameter is used to define how the request is responded to.
@@ -67,8 +46,7 @@ app.delete('/api/highscores/:id', (request, response) => {
 })
 
 
-
-app.post('/api/highscores', (request, response) => {
+app.post('/api/highscores', (request, response, next) => {
     const body = request.body
 
     if (body.username === undefined || body.score === undefined) {
@@ -80,24 +58,29 @@ app.post('/api/highscores', (request, response) => {
         score: body.score
     })
 
-    score.save().then(savedScore => response.json(savedScore))
+    score.save().then(savedScore => response.json(savedScore)).catch(error => {
+        next(error)
+    })
 })
-
-const errorHandler = (error, request, response, next) => {
-    console.error(error.message)
-
-    if (error.name === 'CastError') {
-        return response.status(400).send({ error: 'malformatted id' })
-    }
-
-    next(error)
-}
 
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message })
+    }
+
+    next(error)
+}
+
 app.use(errorHandler)
 
 const PORT = process.env.PORT

@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
 
-console.log('connecting to', url)
-
 mongoose.connect(url)
     .then(result => {
         console.log('connected to MongoDB')
@@ -13,8 +11,15 @@ mongoose.connect(url)
     })
 
 const highScoreSchema = new mongoose.Schema({
-    username: String,
-    score: String
+    username: {
+        type: String,
+        required: true,
+        minlength: 3
+    },
+    score: {
+        type: String,
+        required: true
+    }
 })
 
 highScoreSchema.set('toJSON', {
