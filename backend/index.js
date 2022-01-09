@@ -69,23 +69,18 @@ app.delete('/api/highscores/:id', (request, response) => {
 
 
 app.post('/api/highscores', (request, response) => {
-    const maxId = highScores.length > 0
-        ? Math.max(...highScores.map(s => s.id))
-        : 0
+    const body = request.body
 
-    const score = request.body
-
-    if (!score.username || score.score) {
-        return response.status(400).json({
-            error: 'Username or Score is missing'
-        })
+    if (body.username === undefined || body.score === undefined) {
+        return response.status(400).json({ error: 'Username or Score missing' })
     }
 
-    score.id = maxId + 1
+    const score = new HighScore({
+        username: body.username,
+        score: body.score
+    })
 
-    highScores = highScores.concat(score)
-
-    response.json(score)
+    score.save().then(savedScore => response.json(savedScore))
 })
 
 const unknownEndpoint = (request, response) => {
