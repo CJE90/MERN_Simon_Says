@@ -48,17 +48,22 @@ app.get('/api/highscores', (request, response) => {
     })
 })
 
-app.get('/api/highscores/:id', (request, response) => {
+app.get('/api/highscores/:id', (request, response, next) => {
     HighScore.findById(request.params.id).then(score => {
-        response.json(score)
-    })
+        if (score) {
+            response.json(score)
+        }
+        else {
+            response.status(404).end()
+        }
+    }).catch(error => next(error))
 })
 
 app.delete('/api/highscores/:id', (request, response) => {
-    const id = Number(request.params.id)
-    highScores = highScores.filter(score => score.id !== id)
-
-    response.status(204).end()
+    HighScore.findByIdAndRemove(request.params.id).then(result => {
+        console.log(`resource deleted`)
+        response.status(204).end()
+    }).catch(error => next(error))
 })
 
 
@@ -78,11 +83,22 @@ app.post('/api/highscores', (request, response) => {
     score.save().then(savedScore => response.json(savedScore))
 })
 
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    }
+
+    next(error)
+}
+
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
