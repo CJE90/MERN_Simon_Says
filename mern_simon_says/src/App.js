@@ -1,7 +1,9 @@
 import React from 'react'
+import Leaderboard from './components/Leaderboard'
+
 const App = () => (
   <div>
-    <p>Hello world</p>
+    <Leaderboard />
   </div>
 )
 
