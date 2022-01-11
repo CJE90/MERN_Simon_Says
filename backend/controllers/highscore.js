@@ -3,6 +3,7 @@ const HighScore = require('../models/highScore')
 
 highScoreRouter.get('/', (request, response) => {
     HighScore.find({}).then(scores => {
+        console.log('getting score resource', scores)
         response.json(scores)
     })
 })
