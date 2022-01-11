@@ -19,7 +19,6 @@ const App = () => {
         handleUsernameChange={({ target }) => setUsername(target.value)}
         handlePasswordChange={({ target }) => setPassword(target.value)}
         handleSubmit={handleLogin} />
-
     )
   }
 
