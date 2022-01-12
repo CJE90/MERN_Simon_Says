@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 import Leaderboard from './components/Leaderboard'
 import LoginForm from './components/LoginForm'
+import Game from './components/Game'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [pickedColors, setColors] = useState([])
+  const [userColors, setUserColors] = useState([])
+
+  const choices = ['R', 'Y', 'G', 'B']
 
   const handleLogin = (event) => {
     event.preventDefault()
-    console.log('click')
+
     setUser('user')
   }
 
@@ -22,6 +27,34 @@ const App = () => {
     )
   }
 
+  const selectRandomColor = (lengthOfColorArray) => {
+    let randomIndex = Math.floor(Math.random() * lengthOfColorArray);
+    console.log(choices[randomIndex])
+
+
+  }
+
+  const makeDecision = () => {
+    let userChoice = false;
+    let gameQuit = false
+    while (!gameQuit) {
+      while (!userChoice) {
+        console.log('Computer is adding a new color')
+        const newColor = selectRandomColor(choices.length)
+        let colors = pickedColors.concat(newColor)
+        //do something with the appropriate button
+        setColors(colors)
+        userChoice = true
+      }
+      while (userChoice) {
+        console.log('user turn')
+        //get button inputs and compare to color array
+      }
+
+    }
+
+  }
+
   const displayUsername = () => {
     return (
       <p>You are logged in.</p>
@@ -30,9 +63,15 @@ const App = () => {
 
   return (
     <div>
-      {user === null ?
-        LoginFormDisplay() : displayUsername()}
-      <Leaderboard />
+      <div className={'gameContainer'}>
+        <Game />
+      </div>
+      <div className={'flexy'}>
+        {user === null ?
+          LoginFormDisplay() : displayUsername()}
+        <br />
+        <Leaderboard />
+      </div>
     </div>
   )
 }

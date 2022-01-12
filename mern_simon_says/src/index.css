@@ -12,9 +12,20 @@ code {
     monospace;
 }
 
+.gameContainer{
+  margin-left: 10%;
+  margin-top: 10%;
+}
+
 .leaderboard{
   border-style: dashed;
   width: fit-content;
+  display: flex;
+  justify-content: flex-end;
+}
+.flexy{
+  display: flex;
+  justify-content: flex-end;
 }
 
 .highScore{
