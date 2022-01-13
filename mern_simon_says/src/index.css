@@ -12,6 +12,42 @@ code {
     monospace;
 }
 
+.playButton{
+  margin-left: 5.5%;
+}
+
+.redCircle{
+  height: 100px;
+  width: 100px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.blueCircle{
+  height: 100px;
+  width: 100px;
+  background-color: blue;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.greenCircle{
+  height: 100px;
+  width: 100px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.yellowCircle{
+  height: 100px;
+  width: 100px;
+  background-color: yellow;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 .gameContainer{
   margin-left: 10%;
   margin-top: 10%;
