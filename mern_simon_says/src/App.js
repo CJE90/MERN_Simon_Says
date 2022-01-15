@@ -3,6 +3,7 @@ import Leaderboard from './components/Leaderboard'
 import LoginForm from './components/LoginForm'
 import loginService from './services/login'
 import signUpService from './services/signup'
+import userDataService from './services/userData'
 import Game from './components/Game'
 
 
@@ -23,6 +24,18 @@ const App = () => {
 
   const choices = ['red', 'yellow', 'green', 'blue']
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedInUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      userDataService.setToken(user.token)
+      setGamesPlayed(user.gamesPlayed)
+      setLastScore(user.lastScore)
+      setUserHighScore(user.highestScore)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
 
@@ -30,7 +43,10 @@ const App = () => {
       const user = await loginService.login({
         username, password
       })
+      window.localStorage.setItem('loggedInUser', JSON.stringify(user))
+      userDataService.setToken(user.token)
       setUser(user)
+      console.log('this is the user id', user.id)
       setGamesPlayed(user.gamesPlayed)
       setLastScore(user.lastScore)
       setUserHighScore(user.highestScore)
@@ -50,7 +66,7 @@ const App = () => {
       })
       console.log(user)
     } catch (exception) {
-      console.log(exception)
+      console.log('exception', exception)
     }
   }
 
@@ -115,6 +131,7 @@ const App = () => {
     } else {
       if (gameActive) {
         setGameMessage('Nope')
+        handleEndGameUserData()
         setUserColors([])
         setColors([])
         setSelectionsNeeded(0)
@@ -125,7 +142,24 @@ const App = () => {
 
     }
   }
+  const handleEndGameUserData = () => {
+    const newGamesPlayed = Number(gamesPlayed) + 1
+    setGamesPlayed(newGamesPlayed)
+    const newLastScore = pickedColors.length - 1
+    setLastScore(newLastScore)
+    if (newLastScore > userHighScore) {
+      setUserHighScore(newLastScore)
+    }
 
+    const newUserData = {
+      ...user,
+      highestScore: userHighScore,
+      gamesPlayed: newGamesPlayed,
+      lastScore: newLastScore
+    }
+    console.log(newUserData)
+    userDataService.update(user.id, newUserData)
+  }
   const resetGame = () => {
     setTimeout(() => {
       setGameMessage('Play')
@@ -133,6 +167,7 @@ const App = () => {
     }, 1000)
   }
   const handleLogout = () => {
+    window.localStorage.removeItem('loggedInUser')
     setUser(null)
   }
   const displayUsername = () => {
