@@ -131,7 +131,9 @@ const App = () => {
     } else {
       if (gameActive) {
         setGameMessage('Nope')
-        handleEndGameUserData()
+        if (user) {
+          handleEndGameUserData()
+        }
         setUserColors([])
         setColors([])
         setSelectionsNeeded(0)
