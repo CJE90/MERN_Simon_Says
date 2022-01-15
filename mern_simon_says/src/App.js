@@ -112,65 +112,26 @@ const App = () => {
     return pickedColors[newColorArr.length - 1] === lastPick
   }
 
-  const handleRedClick = () => {
-    const newColorArr = userColors.concat('red')
+  const handleSimonButtonClick = (color) => {
+    const newColorArr = userColors.concat(color)
     setUserColors(newColorArr)
     handleUserInput(newColorArr)
     setTimeout(() => {
       setLit(false)
     }, 150)
     setLit(true)
-    setStringColor('red')
+    setStringColor(color)
     setTimeout(() => {
       setStringColor('')
     }, 150)
-  }
-  const handleGreenClick = () => {
-    const newColorArr = userColors.concat('green')
-    setUserColors(newColorArr)
-    handleUserInput(newColorArr)
-    setTimeout(() => {
-      setLit(false)
-    }, 150)
-    setLit(true)
-    setStringColor('green')
-    setTimeout(() => {
-      setStringColor('')
-    }, 150)
-  }
-  const handleBlueClick = () => {
-    const newColorArr = userColors.concat('blue')
-    setUserColors(newColorArr)
-    handleUserInput(newColorArr)
-    setTimeout(() => {
-      setLit(false)
-    }, 150)
-    setLit(true)
-    setStringColor('blue')
-    setTimeout(() => {
-      setStringColor('')
-    }, 150)
-  }
-  const handleYellowClick = () => {
-    const newColorArr = userColors.concat('yellow')
-    setUserColors(newColorArr)
-    handleUserInput(newColorArr)
-    setTimeout(() => {
-      setLit(false)
-    }, 150)
-    setLit(true)
-    setStringColor('yellow')
-    setTimeout(() => {
-      setStringColor('')
-    }, 150)
-
   }
 
   return (
     <div>
       <div className={'doubleContainer'}>
         <div className={'simonContainer'}>
-          <Game red={handleRedClick} green={handleGreenClick} blue={handleBlueClick} yellow={handleYellowClick} func={startGame}
+          <Game red={handleSimonButtonClick} green={handleSimonButtonClick} blue={handleSimonButtonClick} yellow={handleSimonButtonClick}
+            func={startGame}
             msg={`${gameMessage}`} valu={lightUp} stringColor={stringcolor} />
         </div>
         <div className={'loginContainer'}>
