@@ -1,30 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const ColoredButton = ({ color, func }) => {
+const ColoredButton = ({ color, func, className, style, stringColor }) => {
 
-    switch (color) {
-        case 'red':
-            return (
-                <div className={'redCircle'} onClick={func}></div>
-            )
-        case 'blue':
-            return (
-                <div className={'blueCircle'} onClick={func}></div>
-            )
-        case 'green':
-            return (
-                <div className={'greenCircle'} onClick={func}></div>
-            )
-        case 'yellow':
-            return (
-                <div className={'yellowCircle'} onClick={func}></div>
-            )
-        default:
-            return <div></div>
+    if (style && stringColor === color) {
+        return (
+            <div className={className} onClick={func} style={{ opacity: 1, color: color }} ></div>
+        )
     }
-
-
-
+    else {
+        return (
+            <div className={className} onClick={func} style={{ opacity: .4, color: color }}></div>
+        )
+    }
 }
 
 export default ColoredButton
