@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Leaderboard from './components/Leaderboard'
 import LoginForm from './components/LoginForm'
+import loginService from './services/login'
 import Game from './components/Game'
 
 
@@ -15,13 +16,28 @@ const App = () => {
   const [gameActive, setGameActive] = useState(false)
   const [lightUp, setLit] = useState(false)
   const [stringcolor, setStringColor] = useState('');
+  const [gamesPlayed, setGamesPlayed] = useState('')
+  const [lastScore, setLastScore] = useState('')
+  const [userHighScore, setUserHighScore] = useState('')
 
   const choices = ['red', 'yellow', 'green', 'blue']
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
 
-    setUser('user')
+    try {
+      const user = await loginService.login({
+        username, password
+      })
+      setUser(user)
+      setGamesPlayed(user.gamesPlayed)
+      setLastScore(user.lastScore)
+      setUserHighScore(user.highestScore)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      console.log('error logging in')
+    }
   }
 
   const startGame = () => {
@@ -101,9 +117,26 @@ const App = () => {
 
     }, 1000)
   }
+  const handleLogout = () => {
+    setUser(null)
+  }
   const displayUsername = () => {
     return (
-      <p>You are logged in.</p>
+      <div>
+        {user.username} is logged in.
+        <div>
+          <div>
+            Games Played: {gamesPlayed}
+          </div>
+          <div>
+            Highest Score: {userHighScore}
+          </div>
+          <div>
+            Last Score: {lastScore}
+          </div>
+          <button onClick={handleLogout}>Log Out</button>
+        </div>
+      </div>
     )
   }
 
