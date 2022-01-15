@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Leaderboard from './components/Leaderboard'
 import LoginForm from './components/LoginForm'
 import loginService from './services/login'
+import signUpService from './services/signup'
 import Game from './components/Game'
 
 
@@ -40,6 +41,19 @@ const App = () => {
     }
   }
 
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+
+    try {
+      const user = await signUpService.signup({
+        username, password
+      })
+      console.log(user)
+    } catch (exception) {
+      console.log(exception)
+    }
+  }
+
   const startGame = () => {
     if (!gameActive) {
       selectRandomColor()
@@ -51,7 +65,8 @@ const App = () => {
       <LoginForm username={username} password={password}
         handleUsernameChange={({ target }) => setUsername(target.value)}
         handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleSubmit={handleLogin} />
+        handleSubmit={handleLogin}
+        handleSignUp={handleSignUp} />
     )
   }
 
