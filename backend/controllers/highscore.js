@@ -1,5 +1,14 @@
 const highScoreRouter = require('express').Router()
 const HighScore = require('../models/highScore')
+const jwt = require('jsonwebtoken')
+
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        return authorization.subString(7)
+    }
+    return null
+}
 
 highScoreRouter.get('/', (request, response) => {
     HighScore.find({}).then(scores => {
@@ -29,6 +38,12 @@ highScoreRouter.delete('/:id', (request, response, next) => {
 
 highScoreRouter.post('/', (request, response, next) => {
     const body = request.body
+
+    const token = getTokenFrom(request)
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
 
     if (body.username === undefined || body.score === undefined) {
         return response.status(400).json({ error: 'Username or Score missing' })
