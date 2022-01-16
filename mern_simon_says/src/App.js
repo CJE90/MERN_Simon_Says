@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Leaderboard from './components/Leaderboard'
 import LoginForm from './components/LoginForm'
 import loginService from './services/login'
+import ScoreService from './services/scores'
 import signUpService from './services/signup'
 import userDataService from './services/userData'
 import Game from './components/Game'
@@ -21,6 +22,16 @@ const App = () => {
   const [gamesPlayed, setGamesPlayed] = useState('')
   const [lastScore, setLastScore] = useState('')
   const [userHighScore, setUserHighScore] = useState('')
+  const [scores, setScores] = useState([])
+
+  useEffect(() => {
+    ScoreService
+      .getAll()
+      .then(initialScores => {
+        const sortedScores = initialScores.sort((a, b) => (Number(a.score) > Number(b.score)) ? -1 : 1)
+        setScores(sortedScores)
+      })
+  }, [])
 
   const choices = ['red', 'yellow', 'green', 'blue']
 
@@ -224,7 +235,7 @@ const App = () => {
         <div className={'loginContainer'}>
           {user === null ?
             LoginFormDisplay() : displayUsername()}
-          <Leaderboard />
+          <Leaderboard scores={scores} />
         </div>
 
       </div>
