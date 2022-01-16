@@ -145,17 +145,19 @@ const App = () => {
     }
   }
   const handleEndGameUserData = () => {
+    let newHighScore = null;
     const newGamesPlayed = Number(gamesPlayed) + 1
     setGamesPlayed(newGamesPlayed)
     const newLastScore = pickedColors.length - 1
     setLastScore(newLastScore)
     if (newLastScore > userHighScore) {
       setUserHighScore(newLastScore)
+      newHighScore = newLastScore
     }
 
     const newUserData = {
       ...user,
-      highestScore: userHighScore,
+      highestScore: newHighScore || userHighScore,
       gamesPlayed: newGamesPlayed,
       lastScore: newLastScore
     }
