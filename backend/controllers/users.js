@@ -26,12 +26,14 @@ usersRouter.put('/:id', (request, response, next) => {
 
 usersRouter.post('/', async (request, response) => {
     const body = request.body
+    console.log(body)
     if (!body.username || !body.password) {
         return response.status(401).json({
             error: 'Missing Username or Password'
         })
     }
-    const checkDupe = await User.find({ username: body.username })
+    const checkDupe = await User.findOne({ username: body.username })
+    console.log(checkDupe)
     if (checkDupe) {
         return response.status(403).json({
             error: 'Username Already Exists'

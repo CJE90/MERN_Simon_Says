@@ -8,16 +8,16 @@ const Leaderboard = () => {
     useEffect(() => {
         ScoreService
             .getAll()
-            .then(initialNotes => {
-                setScores(initialNotes)
+            .then(initialScores => {
+                const sortedScores = initialScores.sort((a, b) => (Number(a.score) > Number(b.score)) ? -1 : 1)
+                setScores(sortedScores)
             })
     }, [])
 
     const loadScores = () => {
-        const sortedScores = scores.sort((a, b) => a.score > b.score)
         return (
             <div>
-                {sortedScores.map(score =>
+                {scores.map(score =>
                     <HighScore
                         key={score.id}
                         HighScore={score}
