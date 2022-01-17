@@ -124,6 +124,26 @@ const App = () => {
 
   }
 
+  const sendScoreToLeaderboard = (score) => {
+    if (scores.length === 10) {
+      console.log('oh no')
+    }
+    else {
+      const scoreInfo = {
+        username: user.username,
+        score: score,
+        id: user.id
+      }
+      console.log(scoreInfo)
+      ScoreService.setToken(user.token)
+      ScoreService.create(scoreInfo)
+      const newScores = scores.concat(scoreInfo)
+      setScores(newScores)
+
+    }
+
+  }
+
   const handleUserInput = (newColorArr) => {
 
     let correctChoice = evaluteUserChoice(newColorArr);
@@ -174,6 +194,13 @@ const App = () => {
     }
     console.log(newUserData)
     userDataService.update(user.id, newUserData)
+
+    console.log('this is the leaderboard scores', scores)
+    // if ((newHighScore || userHighScore) > scores[9].score) {
+    //   sendScoreToLeaderboard(newHighScore || userHighScore)
+    // }
+
+    sendScoreToLeaderboard(newHighScore || newLastScore)
   }
   const resetGame = () => {
     setTimeout(() => {

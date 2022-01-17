@@ -5,14 +5,13 @@ const jwt = require('jsonwebtoken')
 const getTokenFrom = request => {
     const authorization = request.get('authorization')
     if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-        return authorization.subString(7)
+        return authorization.substring(7)
     }
     return null
 }
 
 highScoreRouter.get('/', (request, response) => {
     HighScore.find({}).then(scores => {
-        console.log('getting score resource', scores)
         response.json(scores)
     })
 })
@@ -40,6 +39,7 @@ highScoreRouter.post('/', (request, response, next) => {
     const body = request.body
 
     const token = getTokenFrom(request)
+    console.log('got the token', token)
     const decodedToken = jwt.verify(token, process.env.SECRET)
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token missing or invalid' })
