@@ -125,21 +125,35 @@ const App = () => {
   }
 
   const sendScoreToLeaderboard = (score) => {
+
+    const scoreInfo = {
+      username: user.username,
+      score: score,
+      id: user.id
+    }
+    ScoreService.setToken(user.token)
+
     if (scores.length === 10) {
-      console.log('oh no')
+      console.log('adding score')
+      console.log(scores)
+      const duplicate = scores.find(({ username, score }) => {
+        return (username === user.username && score === score)
+      })
+      if (!duplicate) {
+        //TODO Need to replace entire collection not just in the scores array
+
+        scores.slice(-1)
+        ScoreService.create(scoreInfo)
+        const newScores = scores.concat(scoreInfo)
+        const sortedScores = newScores.sort((a, b) => (Number(a.score) > Number(b.score)) ? -1 : 1)
+        setScores(sortedScores)
+      }
     }
     else {
-      const scoreInfo = {
-        username: user.username,
-        score: score,
-        id: user.id
-      }
-      console.log(scoreInfo)
-      ScoreService.setToken(user.token)
       ScoreService.create(scoreInfo)
       const newScores = scores.concat(scoreInfo)
-      setScores(newScores)
-
+      const sortedScores = newScores.sort((a, b) => (Number(a.score) > Number(b.score)) ? -1 : 1)
+      setScores(sortedScores)
     }
 
   }
@@ -196,6 +210,8 @@ const App = () => {
     userDataService.update(user.id, newUserData)
 
     console.log('this is the leaderboard scores', scores)
+    //do not post if score is alreay present by same user
+
     // if ((newHighScore || userHighScore) > scores[9].score) {
     //   sendScoreToLeaderboard(newHighScore || userHighScore)
     // }
