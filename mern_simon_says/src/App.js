@@ -57,7 +57,6 @@ const App = () => {
       window.localStorage.setItem('loggedInUser', JSON.stringify(user))
       userDataService.setToken(user.token)
       setUser(user)
-      console.log('this is the user id', user.id)
       setGamesPlayed(user.gamesPlayed)
       setLastScore(user.lastScore)
       setUserHighScore(user.highestScore)
@@ -75,7 +74,6 @@ const App = () => {
       const user = await signUpService.signup({
         username, password
       })
-      console.log(user)
     } catch (exception) {
       console.log('exception', exception)
     }
@@ -131,25 +129,24 @@ const App = () => {
       score: score,
       id: user.id
     }
+
     ScoreService.setToken(user.token)
 
-    if (scores.length === 10) {
-      console.log('adding score')
-      console.log(scores)
-      const duplicate = scores.find(({ username, score }) => {
-        return (username === user.username && score === score)
-      })
-      if (!duplicate) {
-        //TODO Need to replace entire collection not just in the scores array
+    const duplicate = scores.find(({ username, score }) => {
+      return (username === user.username && score === scoreInfo.score)
+    })
 
-        scores.slice(-1)
-        ScoreService.create(scoreInfo)
-        const newScores = scores.concat(scoreInfo)
-        const sortedScores = newScores.sort((a, b) => (Number(a.score) > Number(b.score)) ? -1 : 1)
-        setScores(sortedScores)
-      }
+    if (scores.length >= 10 && !duplicate) {
+
+      const scoreToDelete = scores.splice(-1)
+
+      ScoreService.remove(scoreToDelete[0].id)
+      ScoreService.create(scoreInfo)
+      const newScores = scores.concat(scoreInfo)
+      const sortedScores = newScores.sort((a, b) => (Number(a.score) > Number(b.score)) ? -1 : 1)
+      setScores(sortedScores)
     }
-    else {
+    else if (!duplicate) {
       ScoreService.create(scoreInfo)
       const newScores = scores.concat(scoreInfo)
       const sortedScores = newScores.sort((a, b) => (Number(a.score) > Number(b.score)) ? -1 : 1)
@@ -191,9 +188,12 @@ const App = () => {
   }
   const handleEndGameUserData = () => {
     let newHighScore = null;
+
     const newGamesPlayed = Number(gamesPlayed) + 1
-    setGamesPlayed(newGamesPlayed)
+
     const newLastScore = pickedColors.length - 1
+
+    setGamesPlayed(newGamesPlayed)
     setLastScore(newLastScore)
     if (newLastScore > userHighScore) {
       setUserHighScore(newLastScore)
@@ -206,17 +206,12 @@ const App = () => {
       gamesPlayed: newGamesPlayed,
       lastScore: newLastScore
     }
-    console.log(newUserData)
     userDataService.update(user.id, newUserData)
 
-    console.log('this is the leaderboard scores', scores)
-    //do not post if score is alreay present by same user
+    if ((newHighScore || newLastScore) > scores[scores.length - 1].score) {
+      sendScoreToLeaderboard(newHighScore || newLastScore)
+    }
 
-    // if ((newHighScore || userHighScore) > scores[9].score) {
-    //   sendScoreToLeaderboard(newHighScore || userHighScore)
-    // }
-
-    sendScoreToLeaderboard(newHighScore || newLastScore)
   }
   const resetGame = () => {
     setTimeout(() => {
