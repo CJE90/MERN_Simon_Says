@@ -11,72 +11,51 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.doubleContainer{
+.mainContainer{
   display:flex;
+  flex-direction: row;
+  flex-basis: auto;
   border: solid;
   border-width: 10px;
+  color: aqua;
 }
 
 .simonContainer{
-  display: flex;
+  color: red;
+  flex-grow: 1;
+  /* display: flex; */
   border: solid;
   border-width: 10px;
 }
-.loginContainer{
-  display: flex;
+.rightContainer{
+  flex-grow: 1;
+  /* display: flex; */
   border: solid;
   border-width: 10px;
   color: blue;
   flex-direction: column;
+}
+
+.loginContainer{
+  color:green;
+  border: solid;
+  border-width: 10px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginForm{
   
 }
-
-.greyCircle{
-  display: block;
-    height: 100px;
-    width: 100px;
-    line-height: 100px;
-
-    -moz-border-radius: 100px;
-    border-radius: 100px;
-
-    background-color: black;
-    color: white;
-    text-align: center;
-    font-size: 2em;
+.leaderboardContainer{
+  color:orchid;
+  border: solid;
+  border-width: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.redCircle{
-  height: 100px;
-  width: 100px;
-  background-color: red;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.blueCircle{
-  height: 100px;
-  width: 100px;
-  background-color: blue;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.greenCircle{
-  height: 100px;
-  width: 100px;
-  background-color: green;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.yellowCircle{
-  height: 100px;
-  width: 100px;
-  background-color: yellow;
-  border-radius: 50%;
-  display: inline-block;
-}
 
 .gameContainer{
   margin-left: 10%;
@@ -102,8 +81,6 @@ code {
   padding-bottom: 10px;
   margin: 5px;
 }
-
-
 
 .main{
   position: relative;

@@ -263,22 +263,28 @@ const App = () => {
   }
 
   return (
-    <div>
-      <div className={'doubleContainer'}>
-        <div className={'simonContainer'}>
-          <Game red={handleSimonButtonClick} green={handleSimonButtonClick} blue={handleSimonButtonClick} yellow={handleSimonButtonClick}
-            func={startGame}
-            msg={`${gameMessage}`} valu={lightUp} stringColor={stringcolor} />
-        </div>
+    <div className={'mainContainer'}>
+
+      <div className={'simonContainer'}>
+        <Game red={handleSimonButtonClick} green={handleSimonButtonClick} blue={handleSimonButtonClick} yellow={handleSimonButtonClick}
+          func={startGame}
+          msg={`${gameMessage}`} valu={lightUp} stringColor={stringcolor} />
+      </div>
+      <div className={'rightContainer'}>
         <div className={'loginContainer'}>
-          {user === null ?
-            LoginFormDisplay() : displayUsername()}
+          <div className='loginForm'>
+            {user === null ?
+              LoginFormDisplay() : displayUsername()}
+          </div>
+        </div>
+        <div className={'leaderboardContainer'}>
+
           <Leaderboard scores={scores} />
         </div>
-
       </div>
 
     </div>
+
   )
 }
 
