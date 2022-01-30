@@ -1,9 +1,10 @@
 # MERN_Simon_Says
  Application hosted here at [www.chrisellisportfolio.com](https://www.chrisellisportfolio.com).  
- Can also be accessed [here directly from Herkou](https://sleepy-island-42037.herokuapp.com/index.html)
  
  ## Technologies Used
 Fullstack web application build using React, MongoDB, Express, and Node. Hosted on Heroku. Authentication handled using Bcrypt library
 
 ## Purpose
-Simon Says app complete with leaderboard and stat tracking!
+I created this app to gain more experience working with the MERN stack. The application contains stat tracking for users as they play Simon Says. A leaderboard will keep track of the highest 10 scores ever posted! Be sure to log in to be able to post your name as well!
+
+
