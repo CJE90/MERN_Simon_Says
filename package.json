@@ -1,0 +1,7 @@
+{
+    "name": "MERNSImon",
+    "version": "0.1.0",
+    "scripts": {
+      "postinstall": "npm install --prefix backend && npm install --prefix mern_simon_says"
+    }
+  }
