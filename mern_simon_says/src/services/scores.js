@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/highscores'
+//const baseUrl = 'http://localhost:3001/api/highscores'
+const baseUrl = '/api/highscores'
 
 let token = null
 

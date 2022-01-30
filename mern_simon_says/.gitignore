@@ -1,4 +1,6 @@
 /node_modules
+/build
 /.pnp
+.DS_Store
 .pnp.js
 package-lock.json
