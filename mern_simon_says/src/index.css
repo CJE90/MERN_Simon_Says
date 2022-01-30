@@ -11,49 +11,54 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+li{
+  list-style-type: decimal;
+}
+
 .mainContainer{
   display:flex;
   flex-direction: row;
   flex-basis: auto;
-  border: solid;
+  /* border: solid;
   border-width: 10px;
-  color: aqua;
+  color: aqua; */
 }
 
 .simonContainer{
-  color: red;
   flex-grow: 1;
-  /* display: flex; */
-  border: solid;
+  padding-top: 4%;
+  /* border: solid;
   border-width: 10px;
+  color: red; */
 }
 .rightContainer{
   flex-grow: 1;
-  /* display: flex; */
-  border: solid;
-  border-width: 10px;
-  color: blue;
   flex-direction: column;
+  /* border: solid;
+  border-width: 10px;
+  color: blue; */
+  
 }
 
 .loginContainer{
-  color:green;
-  border: solid;
-  border-width: 10px;
   display:flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 4%;
+  /* color:green;
+  border: solid;
+  border-width: 10px; */
 }
 .loginForm{
-  
+  display: flex
 }
 .leaderboardContainer{
-  color:orchid;
-  border: solid;
-  border-width: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* color:orchid;
+  border: solid;
+  border-width: 10px; */
 }
 
 
@@ -63,7 +68,7 @@ code {
 }
 
 .leaderboard{
-  border-style: dashed;
+  /* border-style: dashed; */
   width: fit-content;
   display: flex;
   justify-content: flex-end;

@@ -10,7 +10,7 @@ const LoginForm = ({
 }) => {
     return (
         <div>
-            <h2>Login</h2>
+            <h1>Login</h1>
 
             <form onSubmit={handleSubmit}>
                 <div>

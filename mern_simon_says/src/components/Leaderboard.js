@@ -7,6 +7,7 @@ const Leaderboard = ({ scores }) => {
     const loadScores = () => {
         return (
             <div>
+                <h1>HighScores</h1>
                 {scores.map(score =>
                     <HighScore
                         key={score.id}
