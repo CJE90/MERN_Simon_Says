@@ -1,5 +1,5 @@
 # MERN_Simon_Says
- Application hosted here at [www.chrisellisportfolio.com](https://www.chrisellisportfolio.com).  
+ Application hosted here at [www.chrisellisportfolio.com](http://www.chrisellisportfolio.com).  
  
  ## Technologies Used
 Fullstack web application build using React, MongoDB, Express, and Node. Hosted on Heroku. Authentication handled using Bcrypt library
